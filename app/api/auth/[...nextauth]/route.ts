@@ -3,7 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import User from "@/app/api/models/userModal";
 import { connect } from "@/app/api/DbConn/dbConn";
 
-connect();
+
 
 /* 🔥 EXPORT authOptions */
 export const authOptions: NextAuthOptions = {
@@ -19,6 +19,8 @@ export const authOptions: NextAuthOptions = {
         if (!credentials?.email || !credentials?.password) {
           throw new Error("Missing credentials");
         }
+
+        await connect(); // ✅ SAFE HERE
 
         const user = await User.findOne({
           email: credentials.email,
