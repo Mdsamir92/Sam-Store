@@ -123,7 +123,7 @@ ${product
 
 <!-- CTA -->
 <div style="text-align:center;margin:22px 0">
-<a href="https://yourwebsite.com/orders"
+<a href="https://sam-store-lac.vercel.app/orders"
 style="background:#2874f0;color:#fff;text-decoration:none;
 padding:12px 22px;border-radius:6px;font-size:14px">
 Manage Your Order
