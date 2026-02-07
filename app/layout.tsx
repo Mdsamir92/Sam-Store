@@ -3,7 +3,8 @@ import ClientProvider from "@/ClientProvider";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-// import CartInitializer from "@/app/components/CartInitializer";
+import ScrollToTop from "@/app/components/ScrollToTop";
+
 
 
 
@@ -18,7 +19,8 @@ export default function RootLayout({
       <body suppressHydrationWarning={true}>
         <ClientProvider>
           <Navbar />
-          {/* <CartInitializer /> */}
+          <ScrollToTop />
+       
           {children}
           <Footer />
         </ClientProvider>
