@@ -9,7 +9,7 @@ export default function WishlistPage() {
 
   if (wishlist.length === 0) {
     return (
-      <div className="text-center mt-20 text-gray-500">
+     <div className="text-center mt-20 flex justify-center items-center min-h-screen text-gray-500">
         ❤️ Your wishlist is empty
       </div>
     );
