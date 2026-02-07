@@ -4,6 +4,9 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
  import { useCheckoutStore } from "@/app/store/checkoutStore";
+import { useEffect } from "react";
+
+
 /* ---------------- ZOD SCHEMA ---------------- */
 const shippingSchema = z.object({
   fullName: z.string().min(3, "Full name is required"),
@@ -32,7 +35,10 @@ function ShippingStep({ onNext, onBack }: any) {
     (state) => state.setShippingAddress
   );
 
- 
+    useEffect(() => {
+     window.scrollTo(0, 0);
+   }, []);
+
 
   const onSubmit = (data: ShippingFormData) => {
     setShippingAddress(data); // ✅ SAVE IN STORE
