@@ -10,7 +10,7 @@ export default function ProductDetail() {
 
   const [product, setProduct] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-const [showSizeChart, setShowSizeChart] = useState(false);
+  const [showSizeChart, setShowSizeChart] = useState(false);
 
   // ✅ MOVE HOOKS UP
   const [activeColor, setActiveColor] = useState<any>(null);
@@ -28,7 +28,6 @@ const [showSizeChart, setShowSizeChart] = useState(false);
         setProduct(data.product);
         console.log(data.product);
         setLoading(false);
-
       })
       .catch(() => setLoading(false));
   }, [id]);
@@ -40,9 +39,21 @@ const [showSizeChart, setShowSizeChart] = useState(false);
     }
   }, [product]);
 
+  
+  // SET DEFAULT SIZE ✅
+  useEffect(() => {
+    if (product?.sizes?.length) {
+      setActiveSize(product.sizes[0]);
+    }
+  }, [product]);
+
   // ✅ RETURNS AFTER ALL HOOKS
   if (loading) {
-    return <div className="p-10 flex items-center justify-center text-center min-h-screen">Loading...</div>;
+    return (
+      <div className="p-10 flex items-center justify-center text-center min-h-screen">
+        Loading...
+      </div>
+    );
   }
 
   if (!product) {
@@ -159,7 +170,7 @@ const [showSizeChart, setShowSizeChart] = useState(false);
                 <button
                   key={s}
                   onClick={() => setActiveSize(s)}
-                  className={`px-4 py-2 rounded border transition
+                  className={`px-4 py-2 rounded border transition cursor-pointer
           ${
             activeSize === s
               ? "bg-black text-white border-black"
@@ -170,6 +181,12 @@ const [showSizeChart, setShowSizeChart] = useState(false);
                 </button>
               ))}
             </div>
+            {activeSize && (
+              <p className="mt-2 text-sm text-gray-700">
+                Selected Size:{" "}
+                <span className="font-semibold">{activeSize}</span>
+              </p>
+            )}
           </div>
         )}
 
