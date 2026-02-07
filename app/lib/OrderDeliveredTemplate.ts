@@ -80,7 +80,7 @@ export const orderDeliveredTemplate = ({
 
                 <!-- CTA -->
                 <div style="text-align:center; margin:24px 0;">
-                  <a href="http://localhost:3000/orders"
+               <a href="https://sam-store-lac.vercel.app/orders"
                      style="background:#2874f0; color:#fff; padding:12px 22px;
                             text-decoration:none; border-radius:6px;">
                     Manage Your Order
