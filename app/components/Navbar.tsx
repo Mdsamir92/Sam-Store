@@ -28,44 +28,38 @@ export default function Navbar() {
   const [drawer, setDrawer] = useState(false);
 
   const cart = useCartStore((state) => state.cart);
-  
 
+  const wishlist = useWishlistStore((state) => state.wishlist);
 
+  const wishlistCount = wishlist.length;
 
+  const { query, setQuery, results, setResults, clear } = useSearchStore();
 
-  // const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+  const { clearCart } = useCartStore();
 
-
-const wishlist = useWishlistStore((state) => state.wishlist);
-
-const wishlistCount = wishlist.length;
-
-   const { query, setQuery,results, setResults, clear } = useSearchStore();
-
-     const { clearCart } = useCartStore();
-
-    const router = useRouter();
+  const router = useRouter();
 
   const totalItems = cart.length;
 
-const handleSearch = async (value: string) => {
-  setQuery(value);
+  const handleSearch = async (value: string) => {
+    setQuery(value);
 
-  if (!value.trim()) {
-    clear();
-    return;
-  }
+    if (!value.trim()) {
+      clear();
+      return;
+    }
 
-  const res = await fetch(`/api/products`);
-  const data = await res.json();
+    const res = await fetch(`/api/products`);
+    const data = await res.json();
 
-  const filtered = data.filter((p: any) =>
-    p.title.toLowerCase().includes(value.toLowerCase()) ||
-    p.category.toLowerCase().includes(value.toLowerCase())
-  );
+    const filtered = data.filter(
+      (p: any) =>
+        p.title.toLowerCase().includes(value.toLowerCase()) ||
+        p.category.toLowerCase().includes(value.toLowerCase())
+    );
 
-  setResults(filtered.slice(0, 5)); // 👈 limit suggestions
-};
+    setResults(filtered.slice(0, 5)); // 👈 limit suggestions
+  };
 
   return (
     <>
@@ -79,19 +73,19 @@ const handleSearch = async (value: string) => {
                 🛍️
               </div>
               <Link href={"/"}>
-                <span className="font-bold text-lg">
+                <span className="font-bold md:text-lg text-sm">
                   Sam Store<span className="text-yellow-400">.</span>
                 </span>
               </Link>
             </div>
 
             {/* SEARCH BAR */}
-            <div className="relative hidden md:block">
+            <div className="relative">
               <input
                 value={query}
                 onChange={(e) => handleSearch(e.target.value)}
                 placeholder="Search for products..."
-                className="w-90 px-4 py-2 rounded-full bg-gray-100
+                className="md:w-90 w-40 md:px-4 px-2 py-2 rounded-full bg-gray-100
                focus:outline-none focus:ring-2 focus:ring-yellow-400"
               />
 
@@ -236,12 +230,25 @@ const handleSearch = async (value: string) => {
               </div>
 
               {/* MOBILE HAMBURGER (RIGHT SIDE) */}
-              <button
-                className="md:hidden text-2xl"
-                onClick={() => setDrawer(true)}
-              >
-                <FiMenu />
-              </button>
+              <div className="md:hidden flex items-center gap-4">
+                {/* CART */}
+                <Link href="/checkout" className="relative">
+                  <FiShoppingCart className="text-2xl" />
+                  {totalItems > 0 && (
+                    <span
+                      className="absolute -top-2 -right-2 text-xs bg-yellow-400 text-white
+        rounded-full w-5 h-5 flex items-center justify-center"
+                    >
+                      {totalItems}
+                    </span>
+                  )}
+                </Link>
+
+                {/* MENU */}
+                <button onClick={() => setDrawer(true)} className="text-2xl">
+                  <FiMenu />
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -325,13 +332,7 @@ const handleSearch = async (value: string) => {
             >
               <FiHeart /> Wishlist
             </Link>
-            <Link
-              href="/checkout"
-              className="drawer-item"
-              onClick={() => setDrawer(false)}
-            >
-              <FiShoppingCart /> Cart
-            </Link>
+        
 
             <Link
               href="/profile/edit"
