@@ -47,55 +47,53 @@ function PaymentStep({ onBack, onPlaceOrder,loading }: any) {
         </label>
       </div>
 
+   
       {/* ACTIONS */}
-      <div className="flex justify-between items-center mt-10">
+      <div className="flex flex-col sm:flex-row gap-4 sm:justify-between sm:items-center mt-10">
+        {/* BACK BUTTON */}
         <button
           disabled={loading}
           onClick={onBack}
           className={`
-    px-4 py-2 rounded-lg border font-medium
-    ${
-      loading
-        ? "text-gray-400 border-gray-300 cursor-not-allowed"
-        : "text-gray-700 border-gray-400 hover:bg-gray-100"
-    }
-  `}
+      w-full sm:w-auto
+      px-4 py-3 rounded-lg border font-medium
+      transition
+      ${
+        loading
+          ? "text-gray-400 border-gray-300 cursor-not-allowed"
+          : "text-gray-700 border-gray-400 hover:bg-gray-100"
+      }
+    `}
         >
           ← Back
         </button>
 
-        {/* <button
-          onClick={() => onPlaceOrder(method)} // 🔥 MAIN CHANGE
-          className="bg-green-600 text-white px-8 py-3 rounded-lg hover:bg-green-700"
-        >
-          Place Order
-        </button> */}
+        {/* PLACE ORDER BUTTON */}
         <button
           disabled={loading}
           onClick={() => onPlaceOrder(method)}
           className={`
-      px-8 py-2  rounded-xl text-white font-semibold
-    flex items-center justify-center gap-2
-    transition-all duration-300
-    ${
-      loading
-        ? "bg-gray-400 cursor-not-allowed"
-        : "bg-gradient-to from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 active:scale-[0.98]"
-    }
-  `}
+      w-full sm:w-auto
+      px-6 py-3 rounded-xl
+      text-white font-semibold
+      flex items-center justify-center gap-2
+      transition-all duration-300
+      ${
+        loading
+          ? "bg-gray-400 cursor-not-allowed"
+          : "bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 active:scale-[0.98]"
+      }
+    `}
         >
           {loading ? (
             <>
-              {/* 🔄 Spinner */}
               <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
               Processing...
             </>
           ) : (
             <>
-              <p className="text-white text-lg bg-black px-6 py-2 rounded-xl cursor-pointer">
-                {" "}
-                <span>🛒</span>Place Order
-              </p>{" "}
+              <span>🛒</span>
+              <span className="text-sm sm:text-base">Place Order</span>
             </>
           )}
         </button>
