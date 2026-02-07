@@ -136,29 +136,44 @@ function ShippingStep({ onNext, onBack }: any) {
         </div>
       </div>
 
-      {/* ACTION BUTTONS */}
-      <div className="flex justify-between items-center mt-10">
-        <button
-          type="button"
-          onClick={onBack}
-          className="text-gray-600 font-medium hover:underline"
-        >
-          ← Back to Cart
-        </button>
+{/* ACTION BUTTONS */}
+<div className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center">
+  
+  {/* BACK */}
+  <button
+    type="button"
+    onClick={onBack}
+    className="
+      w-full sm:w-auto
+      text-gray-600 font-medium
+      text-center sm:text-left
+      hover:underline
+    "
+  >
+    ← Back to Cart
+  </button>
 
-        <button
-          type="submit"
-          disabled={!isValid}
-          className={`px-8 py-3 rounded-lg transition
-            ${
-              isValid
-                ? "bg-gray-900 text-white hover:bg-black"
-                : "bg-gray-300 text-gray-500 cursor-not-allowed"
-            }`}
-        >
-          Continue to Payment →
-        </button>
-      </div>
+  {/* CONTINUE */}
+  <button
+    type="submit"
+    disabled={!isValid}
+    className={`
+      w-full sm:w-auto
+      px-6 py-3 rounded-lg
+      font-semibold
+      transition
+      ${
+        isValid
+          ? "bg-gray-900 text-white hover:bg-black"
+          : "bg-gray-300 text-gray-500 cursor-not-allowed"
+      }
+    `}
+  >
+    Continue to Payment →
+  </button>
+
+</div>
+
     </form>
   );
 }
