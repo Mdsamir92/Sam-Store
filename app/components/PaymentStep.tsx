@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FiCreditCard, FiSmartphone, FiTruck } from "react-icons/fi";
 
 interface Props {
@@ -12,6 +12,11 @@ interface Props {
 
 function PaymentStep({ onBack, onPlaceOrder,loading }: any) {
   const [method, setMethod] = useState<"card" | "upi" | "cod">("cod");
+
+
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
 
   return (
     <div className="max-w-xl mx-auto bg-white shadow-xl rounded-2xl p-8">
@@ -47,7 +52,6 @@ function PaymentStep({ onBack, onPlaceOrder,loading }: any) {
         </label>
       </div>
 
-   
       {/* ACTIONS */}
       <div className="flex flex-col sm:flex-row gap-4 sm:justify-between sm:items-center mt-10">
         {/* BACK BUTTON */}
