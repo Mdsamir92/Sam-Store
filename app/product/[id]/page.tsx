@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { FiShoppingCart, FiStar } from "react-icons/fi";
 import useCartStore from "@/app/store/cartStore";
+import Image from "next/image";
+
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -64,16 +66,26 @@ export default function ProductDetail() {
     <section className="max-w-7xl mx-auto px-6 py-16 mt-12 grid md:grid-cols-2 gap-12">
       {/* IMAGE */}
       <div className="bg-gray-50 rounded-2xl p-6 flex justify-center">
-        <img
+        {/* <img
           src={activeColor?.image || product.image}
           className="max-h-112 object-contain"
           alt={product.title}
-        />
+        /> */}
+        <div className="relative w-full h-112">
+          <Image
+            src={activeColor?.image || product.image}
+            alt={product.title}
+            fill
+            className="object-contain"
+            sizes="(max-width: 768px) 100vw, 50vw"
+            priority={false}
+          />
+        </div>
       </div>
 
       {/* INFO */}
       <div>
-        <h1 className="text-3xl font-bold">{product.title}</h1>
+        <h1 className="md:text-3xl text-xl font-bold">{product.title}</h1>
 
         <div className="flex items-center gap-2 mt-2">
           {[1, 2, 3, 4, 5].map((i) => (
