@@ -3,8 +3,10 @@
 import useWishlistStore from "@/app/store/wishlistStore";
 import Link from "next/link";
 import { FiHeart, FiShoppingCart, FiStar } from "react-icons/fi";
-
+import Image from "next/image";
 import { FaHeart } from "react-icons/fa";
+
+
 function ProductCard({ product }: any) {
     const { toggleWishlist, isInWishlist } = useWishlistStore();
 
@@ -15,10 +17,13 @@ function ProductCard({ product }: any) {
       <div className="relative bg-gray-50 aspect-4/5 flex items-center justify-center p-4 cursor-pointer">
         {/* IMAGE */}
         {/* <Link href={`/product/${product._id}`}> */}
-          <img
+          <Image
             src={product.image}
             alt={product.title}
-            className="max-h-full max-w-full object-contain"
+            fill
+            className="object-contain"
+            sizes="(max-width: 768px) 100vw, 50vw"
+            priority={false}
           />
         {/* </Link> */}
 
