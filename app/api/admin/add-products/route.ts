@@ -39,10 +39,13 @@ export async function POST(req: NextRequest) {
 
     const mainImage: any = await new Promise((resolve, reject) => {
       cloudinary.uploader
-        .upload_stream({ folder: "products" }, (err, res) => {
-          if (err) reject(err);
-          resolve(res);
-        })
+        .upload_stream(
+          { folder: "products", quality: "auto", fetch_format: "auto" },
+          (err, res) => {
+            if (err) reject(err);
+            resolve(res);
+          }
+        )
         .end(imageBuffer);
     });
 
@@ -55,10 +58,17 @@ export async function POST(req: NextRequest) {
 
         const uploaded: any = await new Promise((resolve, reject) => {
           cloudinary.uploader
-            .upload_stream({ folder: "products/colors" }, (err, res) => {
-              if (err) reject(err);
-              resolve(res);
-            })
+            .upload_stream(
+              {
+                folder: "products/colors",
+                quality: "auto",
+                fetch_format: "auto",
+              },
+              (err, res) => {
+                if (err) reject(err);
+                resolve(res);
+              }
+            )
             .end(buffer);
         });
 
@@ -86,3 +96,4 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
+
