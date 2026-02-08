@@ -74,7 +74,7 @@ export default function Navbar() {
               </div>
               <Link href={"/"}>
                 <span className="font-bold md:text-lg text-sm">
-                  Sam Store<span className="text-yellow-400">.</span>
+                  Sam<span className="text-yellow-400">Store</span>
                 </span>
               </Link>
             </div>
