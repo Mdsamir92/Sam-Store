@@ -111,7 +111,7 @@ const handleAddToCart = useCallback(() => {
               ref={imageRef}
               fill
               priority
-              className="object-contain transition-transform duration-300 ease-out md:group-hover:scale-200"
+              className="object-contain cursor-pointer transition-transform duration-300 ease-out md:group-hover:scale-200"
               sizes="(max-width: 768px) 100vw, 50vw"
             />
           </div>
