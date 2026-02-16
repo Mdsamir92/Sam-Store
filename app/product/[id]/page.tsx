@@ -1,11 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
-import { FiShoppingCart, FiStar } from "react-icons/fi";
 import useCartStore from "@/app/store/cartStore";
 import Image from "next/image";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { FiShoppingCart, FiStar } from "react-icons/fi";
 
+
+interface Color {
+  name: string;
+  image: string;
+}
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -14,8 +19,9 @@ export default function ProductDetail() {
   const [loading, setLoading] = useState(true);
   const [showSizeChart, setShowSizeChart] = useState(false);
 
-  // ✅ MOVE HOOKS UP
-  const [activeColor, setActiveColor] = useState<any>(null);
+  
+  const [activeColor, setActiveColor] = useState<Color | null>(null);
+
   const [activeSize, setActiveSize] = useState<string | null>(null);
 
   const addToCart = useCartStore((state: any) => state.addToCart);
@@ -41,7 +47,6 @@ export default function ProductDetail() {
     }
   }, [product]);
 
-  
   // SET DEFAULT SIZE ✅
   useEffect(() => {
     if (product?.sizes?.length) {
@@ -64,22 +69,59 @@ export default function ProductDetail() {
 
   return (
     <section className="max-w-7xl mx-auto px-6 py-16 mt-12 grid md:grid-cols-2 gap-12">
-      {/* IMAGE */}
-      <div className="bg-gray-50 rounded-2xl p-6 flex justify-center">
-        {/* <img
-          src={activeColor?.image || product.image}
-          className="max-h-112 object-contain"
-          alt={product.title}
-        /> */}
-        <div className="relative w-full h-112">
-          <Image
-            src={activeColor?.image || product.image}
-            alt={product.title}
-            fill
-            className="object-contain"
-            sizes="(max-width: 768px) 100vw, 50vw"
-            priority={false}
-          />
+      {/* IMAGE SECTION */}
+      <div className="bg-gray-50 rounded-2xl p-6 flex gap-6">
+        {/* LEFT - Scrollable Thumbnails */}
+        <div className="flex flex-col gap-4 max-h-112  pr-2 ">
+          {product.colors?.map((color: Color, index: number) => (
+            <div
+              key={index}
+              onClick={() => setActiveColor(color)}
+              className={`relative w-28 h-40 cursor-pointer border-2 rounded-lg overflow-hidden transition-all duration-300
+          ${
+            activeColor?.image === color.image
+              ? "border-yellow-500 scale-105"
+              : "border-gray-300 hover:scale-105"
+          }`}
+            >
+              <Image
+                src={color.image}
+                alt={color.name}
+                fill
+                className="object-cover"
+                sizes="80px"
+              />
+            </div>
+          ))}
+        </div>
+
+        <div className="flex-1 flex justify-center">
+          <div
+            className="relative w-full max-w-125 h-125 overflow-hidden rounded-xl group"
+            onMouseMove={(e) => {
+              const { left, top, width, height } =
+                e.currentTarget.getBoundingClientRect();
+
+              const x = ((e.clientX - left) / width) * 100;
+              const y = ((e.clientY - top) / height) * 100;
+
+              const img = e.currentTarget.querySelector(
+                ".zoom-img"
+              ) as HTMLImageElement;
+
+              if (img) {
+                img.style.transformOrigin = `${x}% ${y}%`;
+              }
+            }}
+          >
+            <Image
+              src={activeColor?.image || product.image}
+              alt={product.title}
+              fill
+              className="object-contain cursor-pointer transition-transform duration-300 ease-out group-hover:scale-150 zoom-img"
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
+          </div>
         </div>
       </div>
 
