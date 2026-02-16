@@ -88,34 +88,11 @@ const handleAddToCart = useCallback(() => {
   return (
     <section className="max-w-7xl mx-auto px-6 py-16 mt-12 grid md:grid-cols-2 gap-12">
       {/* IMAGE SECTION */}
-      <div className="bg-gray-50 rounded-2xl p-6 flex gap-6">
-        {/* LEFT - Scrollable Thumbnails */}
-        <div className="flex flex-col gap-4 max-h-112  pr-2 ">
-          {product.colors?.map((color: Color, index: number) => (
-            <div
-              key={index}
-              onClick={() => setActiveColor(color)}
-              className={`relative w-28 h-40 cursor-pointer border-2 rounded-lg overflow-hidden transition-all duration-300
-          ${
-            activeColor?.image === color.image
-              ? "border-yellow-500 scale-105"
-              : "border-gray-300 hover:scale-105"
-          }`}
-            >
-              <Image
-                src={color.image}
-                alt={color.name}
-                fill
-                className="object-cover"
-                sizes="80px"
-              />
-            </div>
-          ))}
-        </div>
-
-        <div className="flex-1 flex justify-center">
+      <div className="bg-gray-50 rounded-2xl p-4 md:p-6 flex flex-col md:flex-row gap-4 md:gap-6">
+        {/* MAIN IMAGE (Mobile Top) */}
+        <div className="order-1 md:order-2 flex-1 flex justify-center">
           <div
-            className="relative w-full max-w-125 h-125 overflow-hidden rounded-xl group"
+            className="relative w-full max-w-100 md:max-w-125 h-87 md:h-125 overflow-hidden rounded-xl group"
             onMouseMove={(e) => {
               if (!imageRef.current) return;
 
@@ -133,10 +110,35 @@ const handleAddToCart = useCallback(() => {
               alt={product.title}
               ref={imageRef}
               fill
-              className="object-contain cursor-pointer transition-transform duration-300 ease-out group-hover:scale-200 zoom-img"
+              priority
+              className="object-contain transition-transform duration-300 ease-out md:group-hover:scale-200"
               sizes="(max-width: 768px) 100vw, 50vw"
             />
           </div>
+        </div>
+
+        {/* THUMBNAILS */}
+        <div className="order-2 md:order-1 flex md:flex-col gap-3 ">
+          {product.colors?.map((color: Color, index: number) => (
+            <div
+              key={index}
+              onClick={() => setActiveColor(color)}
+              className={`relative min-w-20 h-27 md:w-28 md:h-40 cursor-pointer border-2 rounded-lg overflow-hidden transition-all duration-300
+        ${
+          activeColor?.image === color.image
+            ? "border-yellow-500 scale-105"
+            : "border-gray-300"
+        }`}
+            >
+              <Image
+                src={color.image}
+                alt={color.name}
+                fill
+                className="object-cover"
+                sizes="80px"
+              />
+            </div>
+          ))}
         </div>
       </div>
 
