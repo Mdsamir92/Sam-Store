@@ -52,7 +52,7 @@ const filteredOrders = query
         order._id === orderId ? { ...order, status: "Cancel Requested" } : order
       );
 
-      setOrders(updatedOrders); // ✅ NO ERROR
+      setOrders(updatedOrders); 
     }
   };
 
@@ -80,7 +80,7 @@ const filteredOrders = query
                 <img
                   src={order.items[0]?.image}
                   alt={order.items[0]?.title}
-                  className="w-20 h-20 object-cover rounded-md border"
+                  className="w-16 h-24 object-cover rounded-md border"
                 />
 
                 <div className="space-y-2 flex-1">
@@ -119,7 +119,7 @@ const filteredOrders = query
                           <img
                             src={item.image}
                             alt={item.title}
-                            className="w-14 h-14 object-cover rounded-md border"
+                            className="w-12 h-14 object-cover rounded-md border"
                           />
 
                           <div>
