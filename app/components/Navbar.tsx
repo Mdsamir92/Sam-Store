@@ -67,17 +67,18 @@ export default function Navbar() {
       <nav className="w-full bg-white shadow-xl fixed top-0 z-50">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between h-16">
-            {/* LEFT */}
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-yellow-400 rounded-md flex items-center justify-center">
-                🛍️
+             {/* LEFT */}
+            <div className="flex items-center gap-2">
+              <div className="w-10 h-12  rounded-md flex items-center justify-center">
+                <img src="/sam-logo.jpg" alt="" />
               </div>
               <Link href={"/"}>
                 <span className="font-bold md:text-lg text-sm">
-                  Sam<span className="text-yellow-400">Store</span>
+                  <span className="text-yellow-400">Store</span>
                 </span>
               </Link>
             </div>
+          
 
             {/* SEARCH BAR */}
             <div className="relative">
