@@ -118,7 +118,7 @@ export default function ProductDetail() {
               src={activeColor?.image || product.image}
               alt={product.title}
               fill
-              className="object-contain cursor-pointer transition-transform duration-300 ease-out group-hover:scale-150 zoom-img"
+              className="object-contain cursor-pointer transition-transform duration-300 ease-out group-hover:scale-200 zoom-img"
               sizes="(max-width: 768px) 100vw, 50vw"
             />
           </div>
