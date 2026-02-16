@@ -5,7 +5,8 @@ import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FiShoppingCart, FiStar } from "react-icons/fi";
-
+import { useRef } from "react";
+import { useCallback } from "react";
 
 interface Color {
   name: string;
@@ -19,40 +20,57 @@ export default function ProductDetail() {
   const [loading, setLoading] = useState(true);
   const [showSizeChart, setShowSizeChart] = useState(false);
 
-  
+  const imageRef = useRef<HTMLImageElement | null>(null);
+
   const [activeColor, setActiveColor] = useState<Color | null>(null);
 
   const [activeSize, setActiveSize] = useState<string | null>(null);
 
   const addToCart = useCartStore((state: any) => state.addToCart);
 
-  // FETCH PRODUCT
-  useEffect(() => {
-    if (!id) return;
+useEffect(() => {
+  if (!id) return;
 
-    fetch(`/api/products/${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setProduct(data.product);
-        console.log(data.product);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
-  }, [id]);
+  const fetchProduct = async () => {
+    try {
+      const res = await fetch(`/api/products/${id}`, {
+        cache: "no-store", // prevent stale data
+      });
 
-  // SET DEFAULT COLOR
-  useEffect(() => {
-    if (product?.colors?.length) {
-      setActiveColor(product.colors[0]);
+      const data = await res.json();
+      const productData = data.product;
+
+      setProduct(productData);
+
+      // set defaults here (no extra re-render)
+      if (productData?.colors?.length) {
+        setActiveColor(productData.colors[0]);
+      }
+
+      if (productData?.sizes?.length) {
+        setActiveSize(productData.sizes[0]);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
     }
-  }, [product]);
+  };
 
-  // SET DEFAULT SIZE ✅
-  useEffect(() => {
-    if (product?.sizes?.length) {
-      setActiveSize(product.sizes[0]);
-    }
-  }, [product]);
+  fetchProduct();
+}, [id]);
+
+const handleAddToCart = useCallback(() => {
+  addToCart({
+    id: product._id,
+    title: product.title,
+    price: product.price,
+    image: activeColor?.image || product.image,
+    selectedSize: activeSize,
+    selectedColor: activeColor?.name,
+  });
+}, [product, activeColor, activeSize, addToCart]);
+
 
   // ✅ RETURNS AFTER ALL HOOKS
   if (loading) {
@@ -99,24 +117,21 @@ export default function ProductDetail() {
           <div
             className="relative w-full max-w-125 h-125 overflow-hidden rounded-xl group"
             onMouseMove={(e) => {
+              if (!imageRef.current) return;
+
               const { left, top, width, height } =
                 e.currentTarget.getBoundingClientRect();
 
               const x = ((e.clientX - left) / width) * 100;
               const y = ((e.clientY - top) / height) * 100;
 
-              const img = e.currentTarget.querySelector(
-                ".zoom-img"
-              ) as HTMLImageElement;
-
-              if (img) {
-                img.style.transformOrigin = `${x}% ${y}%`;
-              }
+              imageRef.current.style.transformOrigin = `${x}% ${y}%`;
             }}
           >
             <Image
               src={activeColor?.image || product.image}
               alt={product.title}
+              ref={imageRef}
               fill
               className="object-contain cursor-pointer transition-transform duration-300 ease-out group-hover:scale-200 zoom-img"
               sizes="(max-width: 768px) 100vw, 50vw"
@@ -246,16 +261,7 @@ export default function ProductDetail() {
 
         {/* ADD TO CART */}
         <button
-          onClick={() =>
-            addToCart({
-              id: product._id,
-              title: product.title,
-              price: product.price,
-              image: activeColor?.image || product.image,
-              selectedSize: activeSize,
-              selectedColor: activeColor?.name,
-            })
-          }
+          onClick={handleAddToCart}
           className="mt-8 w-full justify-center cursor-pointer py-3 bg-yellow-400 hover:bg-yellow-500 rounded-full font-semibold flex items-center gap-2"
         >
           Add to Cart <FiShoppingCart />
