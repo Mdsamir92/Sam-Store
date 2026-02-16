@@ -6,6 +6,11 @@ import Footer from "./components/Footer";
 import ScrollToTop from "@/app/components/ScrollToTop";
 
 
+export const metadata = {
+  icons: {
+    icon: "/favicon.jpg",
+  },
+};
 
 
 
