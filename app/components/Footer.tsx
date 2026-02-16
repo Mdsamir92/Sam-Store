@@ -10,7 +10,8 @@ export default function Footer() {
           {/* BRAND */}
           <div>
             <h2 className="text-xl font-bold text-white mb-3">
-              Sam<span className="text-yellow-400">Store</span>
+              <img src="/sam-logo.jpg" alt="" className="h-10 w-10" />
+              <span className="text-yellow-400">Store.</span>
             </h2>
             <p className="text-sm text-gray-400 leading-relaxed">
               Your one-stop destination for trending fashion, accessories, and
