@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { FiShoppingCart, FiStar } from "react-icons/fi";
 import { useRef } from "react";
 import { useCallback } from "react";
+import { FaCheckCircle } from "react-icons/fa";
 
 interface Color {
   name: string;
@@ -111,7 +112,7 @@ const handleAddToCart = useCallback(() => {
               ref={imageRef}
               fill
               priority
-              className="object-contain cursor-pointer transition-transform duration-300 ease-out md:group-hover:scale-200"
+              className="object-contain cursor-pointer  transition-transform duration-300 ease-out md:group-hover:scale-200"
               sizes="(max-width: 768px) 100vw, 50vw"
             />
           </div>
@@ -145,7 +146,6 @@ const handleAddToCart = useCallback(() => {
       {/* INFO */}
       <div>
         <h1 className="md:text-3xl text-xl font-bold">{product.title}</h1>
-
         <div className="flex items-center gap-2 mt-2">
           {[1, 2, 3, 4, 5].map((i) => (
             <FiStar
@@ -162,7 +162,6 @@ const handleAddToCart = useCallback(() => {
             ({product.ratingCount ?? 0} ratings)
           </span>
         </div>
-
         {/* PRICE */}
         <div className="flex gap-3 mt-4">
           <span className="text-2xl font-bold">₹{product.price}</span>
@@ -172,9 +171,7 @@ const handleAddToCart = useCallback(() => {
             </span>
           )}
         </div>
-
         <p className="mt-4 text-gray-600">{product.description}</p>
-
         {/* COLORS */}
         {product.colors?.length > 0 && (
           <div className="mt-6">
@@ -209,8 +206,7 @@ const handleAddToCart = useCallback(() => {
             )}
           </div>
         )}
-
-        {/* featres  */}
+        {/* featres 
         {product.features?.length > 0 && (
           <div className="mt-4">
             <h3 className="font-medium mb-2">Features</h3>
@@ -220,8 +216,26 @@ const handleAddToCart = useCallback(() => {
               ))}
             </ul>
           </div>
-        )}
+        )} */}
+      
+        {/* Features */}
+        {product.features?.length > 0 && (
+          <section className="mt-6">
+            <h3 className="text-lg font-semibold mb-3">Features</h3>
 
+            <ul className="space-y-2">
+              {product.features.map((f: string, i: number) => (
+                <li
+                  key={f}
+                  className="flex items-center gap-2 text-sm text-gray-700"
+                >
+                  <FaCheckCircle className="text-green-500 text-base" />
+                  {f}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
         {/* SIZES */}
         {product.sizes?.length > 0 && (
           <div className="mt-6">
@@ -236,7 +250,7 @@ const handleAddToCart = useCallback(() => {
               </button>
             </div>
 
-            <div className="flex gap-3 flex-wrap">
+            <div className="flex gap-3 mt-3 flex-wrap">
               {product.sizes.map((s: string) => (
                 <button
                   key={s}
@@ -260,7 +274,6 @@ const handleAddToCart = useCallback(() => {
             )}
           </div>
         )}
-
         {/* ADD TO CART */}
         <button
           onClick={handleAddToCart}
