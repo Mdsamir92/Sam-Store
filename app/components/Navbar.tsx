@@ -24,8 +24,12 @@ import NotificationBell from "@/app/components/Notifications";
 
 export default function Navbar() {
   const { data: session } = useSession();
+  
   const [open, setOpen] = useState(false);
   const [drawer, setDrawer] = useState(false);
+
+
+  const [mounted, setMounted] = useState(false);
 
   const cart = useCartStore((state) => state.cart);
 
@@ -41,6 +45,7 @@ export default function Navbar() {
 
   const totalItems = cart.length;
 
+  
   const handleSearch = async (value: string) => {
     setQuery(value);
 
@@ -49,7 +54,7 @@ export default function Navbar() {
       return;
     }
 
-    const res = await fetch(`/api/products`);
+    const res = await fetch(`/api/admin/products`);
     const data = await res.json();
 
     const filtered = data.filter(
@@ -61,13 +66,20 @@ export default function Navbar() {
     setResults(filtered.slice(0, 5)); // 👈 limit suggestions
   };
 
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
   return (
     <>
       {/* ================= NAVBAR ================= */}
       <nav className="w-full bg-white shadow-xl fixed top-0 z-50">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between h-16">
-             {/* LEFT */}
+            {/* LEFT */}
             <div className="flex items-center gap-2">
               <div className="w-10 h-12  rounded-md flex items-center justify-center">
                 <img src="/sam-logo.jpg" alt="" />
@@ -78,7 +90,6 @@ export default function Navbar() {
                 </span>
               </Link>
             </div>
-          
 
             {/* SEARCH BAR */}
             <div className="relative">
@@ -333,7 +344,6 @@ export default function Navbar() {
             >
               <FiHeart /> Wishlist
             </Link>
-        
 
             <Link
               href="/profile/edit"
