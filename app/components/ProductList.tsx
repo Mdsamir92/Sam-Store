@@ -22,7 +22,7 @@ function ProductList() {
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const res = await fetch("/api/products");
+        const res = await fetch("/api/admin/products");
         const data = await res.json();
         setProducts(data);
       } catch (err) {
