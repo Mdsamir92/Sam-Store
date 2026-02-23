@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import {
   FiHeart,
   FiHome,
+  
   FiSearch,
   FiShoppingCart,
   FiUser,
