@@ -24,21 +24,23 @@ function Categories() {
   };
 
   return (
-    <div className="flex gap-4 flex-wrap">
-      {categories.map((cat) => (
-        <button
-          key={cat.value}
-          onClick={() => handleCategory(cat.value)}
-          className={`px-5 py-2 rounded-full border font-medium transition
-            ${
-              activeCategory === cat.value
-                ? "bg-gray-900 text-white"
-                : "border-gray-300 hover:bg-gray-100"
-            }`}
-        >
-          {cat.label}
-        </button>
-      ))}
+    <div className="w-full flex justify-center mt-10">
+      <div className="flex gap-4 flex-wrap justify-center bg-white px-6 py-4 rounded-2xl shadow-sm">
+        {categories.map((cat) => (
+          <button
+            key={cat.value}
+            onClick={() => handleCategory(cat.value)}
+            className={`px-6 py-2 cursor-pointer rounded-full text-sm font-medium transition-all duration-300 border
+              ${
+                activeCategory === cat.value
+                  ? "bg-gray-900 text-white border-gray-900 scale-105 shadow-md"
+                  : "border-gray-300 text-gray-700 hover:bg-gray-100 hover:shadow-sm"
+              }`}
+          >
+            {cat.label}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }
