@@ -12,7 +12,7 @@ export default function AdminProductsPage() {
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const res = await fetch("/api/products");
+        const res = await fetch("/api/admin/products");
         const data = await res.json();
         setProducts(data);
       } catch (err) {
@@ -38,6 +38,26 @@ export default function AdminProductsPage() {
    
  );
 
+ const handleDeleteProduct = async (id: string): Promise<void> => {
+   const ok = confirm("Are you sure you want to delete this product?");
+   if (!ok) return;
+
+   try {
+     const res = await fetch(`/api/admin/products/${id}`, {
+       method: "DELETE",
+     });
+
+     if (res.ok) {
+       alert("Product deleted ✅");
+       setProducts((prev) => prev.filter((x) => x._id !== id));
+     } else {
+       alert("Delete failed ❌");
+     }
+   } catch (error) {
+     console.error("Delete error:", error);
+     alert("Something went wrong ❌");
+   }
+ };
 
 
   // ✅ RETURNS AFTER ALL HOOKS
@@ -53,13 +73,9 @@ export default function AdminProductsPage() {
     <div className="max-w-360 mt-12 mx-auto p-8">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">All Products</h1>
-        
-           <Link
-          href="/admin/orders"
-          className="px-4 py-2  rounded-lg"
-        >
 
-        <h1 className="text-2xl font-bold">All Orders</h1>
+        <Link href="/admin/orders" className="px-4 py-2  rounded-lg">
+          <h1 className="text-2xl font-bold">All Orders</h1>
         </Link>
         <Link
           href="/admin/add-product"
@@ -128,30 +144,8 @@ export default function AdminProductsPage() {
                     </Link>
 
                     <button
-                      onClick={async () => {
-                        const ok = confirm(
-                          "Are you sure you want to delete this product?"
-                        );
-                        if (!ok) return;
-
-                        const res = await fetch(
-                          `/api/admin/products/${p._id}`,
-                          {
-                            method: "DELETE",
-                          }
-                        );
-
-                        if (res.ok) {
-                          alert("Product deleted ✅");
-                          setProducts((prev) =>
-                            prev.filter((x) => x._id !== p._id)
-                          );
-                        } else {
-                          alert("Delete failed ❌");
-                        }
-                      }}
-                      className="px-3 py-1 text-xs rounded-md
-             bg-red-50 text-red-600 hover:bg-red-100"
+                      onClick={() => handleDeleteProduct(p._id)}
+                      className="px-3 py-1 text-xs rounded-md bg-red-50 text-red-600 hover:bg-red-100"
                     >
                       Delete
                     </button>
